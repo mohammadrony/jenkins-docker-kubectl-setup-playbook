@@ -1,0 +1,21 @@
+---
+- name: Setup jenkins automation server
+  hosts: all
+  become: true
+  gather_facts: false
+  roles: 
+    - jenkins-setup
+
+- name: Setup docker platform
+  hosts: all
+  become: true
+  gather_facts: false
+  roles: 
+    - docker-setup
+
+- name: Setup kubectl command
+  hosts: all
+  become: true
+  gather_facts: false
+  roles: 
+    - kubectl-setup

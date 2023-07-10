@@ -1,0 +1,39 @@
+---
+- name: Download Long Term Jenkins release
+  get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- name: Import Jenkins key from URL
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+- name: DNF update
+  dnf:
+    name: "*"
+    state: latest
+
+- name: Install Java
+  dnf:
+    name: java-11-openjdk-devel
+    state: present
+
+- name: Install Maven
+  dnf:
+    name: maven
+    state: present
+
+- name: Install Jenkins
+  dnf:
+    name: jenkins
+    state: latest
+
+- name: Daemon-reload to pick up config changes
+  systemd:
+    daemon_reload: yes
+
+- name: Start Jenkins
+  systemd:
+    name: jenkins
+    state: started
