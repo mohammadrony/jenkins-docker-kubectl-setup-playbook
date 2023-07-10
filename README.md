@@ -1,6 +1,6 @@
 # Prepare Jenkins, Docker and Kubectl in CentOS 9
 
-An Ansible playbook to prepare Jenkins server, Docker platform, and Kubectl for Kubernetes cluster.
+An Ansible playbook to prepare Jenkins server, Docker platform in CentOS linux.
 
 ## Pre-requisites
 
@@ -8,17 +8,13 @@ Prepare an Ansible connection from the control node to managed node using [Ansib
 
 ### Prepare kubernetes cluster
 
-To maintain a separate Kubernetes cluster from the Jenkins server and execute commands using `kubectl`, you can follow the instructions in the [kubernetes-cluster-setup-playbook](https://github.com/mohammadrony/kubernetes-cluster-setup-playbook.git) repository to create a cluster with a master and worker node.
+If you are to maintain a Kubernetes cluster from the Jenkins server with `kubectl`, you can follow the instructions in the [kubernetes-cluster-setup-playbook](https://github.com/mohammadrony/kubernetes-cluster-setup-playbook.git) repository to create a cluster with a master and worker node.
 
 ## Clone this repository to ansible home
 
 ```bash
-git clone https://github.com/mohammadrony/<jenkins-docker-kubectl-install>.git
+git clone https://github.com/mohammadrony/jenkins-docker-setup-playbook.git
 ```
-
-## Update variable in playbook
-
-Update the control plane ip address variable [file](./kube-control-setup/vars/main.yml) file in the repository.
 
 ## Check ansible hosts file
 
