@@ -15,7 +15,6 @@
 - name: Check if source file exists
   stat:
     path: "/tmp/kubeconfig"
-  become_user: root
   delegate_to: localhost
   register: kube_config_stat
   ignore_errors: true
@@ -33,7 +32,6 @@
   copy:
     src: "/tmp/kubeconfig"
     dest: "/var/lib/jenkins/.kube/config"
-    remote_src: yes
     owner: jenkins
     group: jenkins
     mode: "0644"

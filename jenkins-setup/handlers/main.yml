@@ -1,2 +1,21 @@
 ---
-# handlers file for jenkins-setup
+- name: Reboot ALL machines
+  reboot:
+
+- name: Restart SSH
+  systemd:
+    name: sshd
+    state: restarted
+
+- name: Start Jenkins
+  systemd:
+    name: jenkins
+    state: started
+    enabled: True
+    daemon_reload: true
+
+- name: Restart Jenkins
+  systemd:
+    name: jenkins
+    state: restarted
+    daemon_reload: true

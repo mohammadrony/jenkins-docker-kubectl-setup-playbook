@@ -1,4 +1,4 @@
-# Prepare Jenkins, Docker and Kubectl in CentOS 9.
+# Prepare Jenkins, Docker and Kubectl in CentOS 9
 
 An Ansible playbook to prepare Jenkins server, Docker and Kubectl configuration in CentOS 9
 

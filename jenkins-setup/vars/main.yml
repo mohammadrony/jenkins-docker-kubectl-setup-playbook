@@ -1,2 +1,10 @@
 ---
-# vars file for jenkins-setup
+jenkins:
+  host: 192.168.199.27
+  port: 8080
+  user: admin
+  pass: admin
+  fullname: Admin
+  email: your@email.com
+
+admin_token_file: /var/lib/jenkins/secrets/initialAdminPassword
