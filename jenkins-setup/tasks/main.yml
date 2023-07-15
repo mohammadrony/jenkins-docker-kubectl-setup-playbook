@@ -77,49 +77,54 @@
     enabled: true
     state: started
 
-- name: Sleep 1 min for Jenkins to initialize
-  wait_for:
-    timeout: 60
+- name: Fetch initial admin token
+  fetch:
+    src: "{{ admin_token_file }}"
+    dest: /home/ansible/jenkins-admintoken.txt
+    flat: yes
+# - name: Sleep 1 min for Jenkins to initialize
+#   wait_for:
+#     timeout: 60
 
-- name: Skip Jenkins StartUp
-  lineinfile: dest=/lib/systemd/system/jenkins.service
-    regexp='^Environment="JAVA_OPTS=-Djava.awt.headless=true'
-    line='Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
-  notify:
-    - Restart Jenkins
+# - name: Skip Jenkins StartUp
+#   lineinfile: dest=/lib/systemd/system/jenkins.service
+#     regexp='^Environment="JAVA_OPTS=-Djava.awt.headless=true'
+#     line='Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+#   notify:
+#     - Restart Jenkins
 
-- name: Sleep 1 min for Jenkins to initialize
-  wait_for:
-    timeout: 60
+# - name: Sleep 1 min for Jenkins to initialize
+#   wait_for:
+#     timeout: 60
 
-- name: Install ansible plugin on Jenkins
-  jenkins_plugin:
-    name: build-pipeline-plugin
-  notify:
-    - Restart Jenkins
+# - name: Install ansible plugin on Jenkins
+#   jenkins_plugin:
+#     name: build-pipeline-plugin
+#   notify:
+#     - Restart Jenkins
 
-- name: Get initial admin token
-  shell: "cat {{ admin_token_file }}"
-  register: admin_auth_token
+# - name: Get initial admin token
+#   shell: "cat {{ admin_token_file }}"
+#   register: admin_auth_token
 
-- name: Create crumb authentication request
-  uri:
-    url: 'http://{{ jenkins.host }}:{{ jenkins.port }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
-    user: admin
-    password: "{{ admin_auth_token.stdout }}"
-    force_basic_auth: yes
-    return_content: yes
-  register: crumb
+# - name: Create crumb authentication request
+#   uri:
+#     url: 'http://{{ jenkins.host }}:{{ jenkins.port }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
+#     user: admin
+#     password: "{{ admin_auth_token.stdout }}"
+#     force_basic_auth: yes
+#     return_content: yes
+#   register: crumb
 
-- name: Create Jenkins administration account
-  uri:
-    method: POST
-    url: "http://{{ jenkins.host }}:{{ jenkins.port }}/securityRealm/createAccountByAdmin"
-    user: admin
-    password: "{{ admin_auth_token.stdout }}"
-    force_basic_auth: yes
-    follow_redirects: all
-    headers:
-      Jenkins-Crumb: '{{ crumb.content.split(":")[1] }}'
-      Cookie: "{{ crumb.set_cookie }}"
-    body: "username={{ jenkins.user }}&password1={{ jenkins.pass }}&password2={{ jenkins.pass }}&fullname={{ jenkins.fullname }}&email={{ jenkins.email }}"
+# - name: Create Jenkins administration account
+#   uri:
+#     method: POST
+#     url: "http://{{ jenkins.host }}:{{ jenkins.port }}/securityRealm/createAccountByAdmin"
+#     user: admin
+#     password: "{{ admin_auth_token.stdout }}"
+#     force_basic_auth: yes
+#     follow_redirects: all
+#     headers:
+#       Jenkins-Crumb: '{{ crumb.content.split(":")[1] }}'
+#       Cookie: "{{ crumb.set_cookie }}"
+#     body: "username={{ jenkins.user }}&password1={{ jenkins.pass }}&password2={{ jenkins.pass }}&fullname={{ jenkins.fullname }}&email={{ jenkins.email }}"
