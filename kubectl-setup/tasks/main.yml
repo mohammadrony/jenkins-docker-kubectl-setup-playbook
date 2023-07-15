@@ -30,7 +30,7 @@
 
 - name: Copy config file
   copy:
-    src: "/tmp/kubeconfig"
+    src: "/home/ansible/kubeconfig.txt"
     dest: "/var/lib/jenkins/.kube/config"
     owner: jenkins
     group: jenkins
