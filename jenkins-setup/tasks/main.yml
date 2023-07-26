@@ -76,6 +76,7 @@
     name: jenkins
     enabled: true
     state: started
+  ignore_errors: true
 
 - name: Fetch initial admin token
   fetch:

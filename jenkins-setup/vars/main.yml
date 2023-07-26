@@ -1,6 +1,6 @@
 ---
 jenkins:
-  host: 18.141.0.84
+  host: <server-ip>
   port: 8080
   user: admin
   pass: admin
