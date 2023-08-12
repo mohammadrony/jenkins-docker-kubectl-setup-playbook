@@ -11,14 +11,17 @@
 ## Configure IP address and host name in control node for ansible
 
 ```bash
-echo '<ip-addr1> <host-name1>' >> /etc/hosts
-echo '<ip-addr2> <host-name2>' >> /etc/hosts
+echo '<ip-addr1> <ansible-host>' >> /etc/hosts
+echo '<ip-addr2> admin-server' >> /etc/hosts
 ```
 
 ## Configure IP address and host name in jenkins server
 
 ```bash
-ssh root@$<jenkins-server> "echo '<ip-addr> <jenkins-server>' >> /etc/hosts"
+jenkins_host="<ip-addr2>"
+ssh root@${jenkins_host} "echo 'admin-server' >> /etc/hostname"
+ssh root@${jenkins_host} "echo '<ip-addr2> admin-server' >> /etc/hosts"
+ssh root@${jenkins_host} "reboot now"
 ```
 
 ## Install Ansible in control node
@@ -61,43 +64,43 @@ ssh-keygen -f /home/ansible/.ssh/id_rsa
 ### Create ansible user in managed node
 
 ```bash
-jenkins_server="<jenkins-server>"
+jenkins_host="admin-server"
 ansible_home='/home/ansible'
 
-ssh root@${jenkins_server} "useradd ansible"
-ssh root@${jenkins_server} "mkdir -p ${ansible_home}/.ssh"
-ssh root@${jenkins_server} "chmod 700 ${ansible_home}/.ssh"
-ssh root@${jenkins_server} "chown -R ansible:ansible ${ansible_home}/.ssh"
+ssh root@${jenkins_host} "useradd ansible"
+ssh root@${jenkins_host} "mkdir -p ${ansible_home}/.ssh"
+ssh root@${jenkins_host} "chmod 700 ${ansible_home}/.ssh"
+ssh root@${jenkins_host} "chown -R ansible:ansible ${ansible_home}/.ssh"
 ```
 
 ### Copy id_rsa.pub key from control node to managed nodes .ssh/authorized_keys file
 
 ```bash
-jenkins_server="<jenkins-server>"
+jenkins_host="admin-server"
 ansible_home='/home/ansible'
 
-scp ${ansible_home}/.ssh/id_rsa.pub root@${jenkins_server}:${ansible_home}/.ssh/id_rsa.pub
-ssh root@${jenkins_server} "chown ansible:ansible ${ansible_home}/.ssh/id_rsa.pub"
-ssh root@${jenkins_server} "tee < ${ansible_home}/.ssh/id_rsa.pub -a ${ansible_home}/.ssh/authorized_keys"
-ssh root@${jenkins_server} "chown ansible:ansible ${ansible_home}/.ssh/authorized_keys"
-ssh root@${jenkins_server} "chmod 600 ${ansible_home}/.ssh/authorized_keys"
+scp ${ansible_home}/.ssh/id_rsa.pub root@${jenkins_host}:${ansible_home}/.ssh/id_rsa.pub
+ssh root@${jenkins_host} "chown ansible:ansible ${ansible_home}/.ssh/id_rsa.pub"
+ssh root@${jenkins_host} "tee < ${ansible_home}/.ssh/id_rsa.pub -a ${ansible_home}/.ssh/authorized_keys"
+ssh root@${jenkins_host} "chown ansible:ansible ${ansible_home}/.ssh/authorized_keys"
+ssh root@${jenkins_host} "chmod 600 ${ansible_home}/.ssh/authorized_keys"
 ```
 
 ### Add ansible to sudoers group for managed nodes
 
 ```bash
-jenkins_server="<jenkins-server>"
-ssh root@${jenkins_server} "echo 'ansible ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/ansible"
+jenkins_host="admin-server"
+ssh root@${jenkins_host} "echo 'ansible ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/ansible"
 ```
 
 ### Allow ansible user to execute command remotely from control node
 
 ```bash
-jenkins_server="<jenkins-server>"
+jenkins_host="admin-server"
 
-ssh root@${jenkins_server} "sed -i 's/#PubkeyAuthentication\syes/PubkeyAuthentication yes/' /etc/ssh/sshd_config"
-ssh root@${jenkins_server} "sed -i 's/#AuthorizedKeysFile\s.ssh\/authorized_keys/AuthorizedKeysFile .ssh\/authorized_keys/' /etc/ssh/sshd_config"
-ssh root@${jenkins_server} "systemctl restart sshd"
+ssh root@${jenkins_host} "sed -i 's/#PubkeyAuthentication\syes/PubkeyAuthentication yes/' /etc/ssh/sshd_config"
+ssh root@${jenkins_host} "sed -i 's/#AuthorizedKeysFile\s.ssh\/authorized_keys/AuthorizedKeysFile .ssh\/authorized_keys/' /etc/ssh/sshd_config"
+ssh root@${jenkins_host} "systemctl restart sshd"
 ```
 
 ## Add host groups in control node for ansible user

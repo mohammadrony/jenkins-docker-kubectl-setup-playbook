@@ -4,7 +4,7 @@ An Ansible playbook to prepare Jenkins server, Docker and Kubectl configuration 
 
 ## Pre-requisites
 
-Prepare an Ansible connection from the control node to managed node using [Ansible setup](./pre-requisites/Ansible-setup-in-CentOS-9.md) document.
+Prepare an Ansible connection from the control node to the managed node using the [Ansible setup](./pre-requisites/Ansible-setup-in-CentOS-9.md) document.
 
 ### Prepare kubernetes cluster
 
@@ -18,7 +18,7 @@ git clone https://github.com/mohammadrony/jenkins-docker-setup-playbook.git
 
 ## Check ansible hosts file
 
-Check [hosts](./hosts) file for host-group and host-names with control plane and worker node host names. By default it would work as follows
+Check [hosts](./hosts) file for host-group and host-names with control plane and worker node host names. By default, it would work as follows
 
 ```bash
 [admin]
