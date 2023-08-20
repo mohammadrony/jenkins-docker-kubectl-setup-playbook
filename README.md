@@ -10,9 +10,10 @@ Prepare an Ansible connection from the control node to the managed node using th
 
 If you are to maintain a Kubernetes cluster from the Jenkins server with `kubectl`, you can follow the instructions in the [kubernetes-cluster-setup-playbook](https://github.com/mohammadrony/kubernetes-cluster-setup-playbook.git) repository to create a cluster with a master and worker node.
 
-## Clone this repository to ansible home
+## Clone this repository
 
 ```bash
+su - ansible
 git clone https://github.com/mohammadrony/jenkins-docker-setup-playbook.git
 ```
 
@@ -25,10 +26,9 @@ Check [hosts](./hosts) file for host-group and host-names with control plane and
 admin-server
 ```
 
-## Finally run the ansible-playbook as ansible user
+## Run Ansible playbook
 
 ```bash
-su ansible
 ansible-playbook playbook.yml
 ```
 
