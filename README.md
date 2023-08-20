@@ -32,4 +32,17 @@ su ansible
 ansible-playbook playbook.yml
 ```
 
+## Start Jenkins service
+
+```bash
+jenkins_host="admin-server"
+ssh ${jenkins_host} "sudo systemctl start jenkins"
+ssh ${jenkins_host} "sudo systemctl status jenkins"
+```
+
+## Browse Jenkins dashboard from browser
+
+- Visit <http://admin-server:8080> URL from local browser.
+- Find the initial admin password from ansible control host's `/home/ansible/jenkins-admintoken.txt` file or Jenkins server host's `/var/lib/jenkins/secrets/initialAdminPassword` file.
+
 Thank you.
