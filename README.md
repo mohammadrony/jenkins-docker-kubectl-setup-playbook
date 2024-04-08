@@ -4,7 +4,7 @@ An Ansible playbook to prepare Jenkins server, Docker and Kubectl configuration 
 
 ## Pre-requisites
 
-Prepare an Ansible connection from the control node to the managed node using the [Ansible setup](./pre-requisites/Ansible-setup-in-CentOS-9.md) document.
+Prepare an Ansible connection from the control node to the managed node using the [Ansible setup](./pre-requisites/Ansible-setup-in-CentOS.md) document.
 
 ### Prepare kubernetes cluster
 
